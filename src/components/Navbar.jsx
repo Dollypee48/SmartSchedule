@@ -21,6 +21,9 @@ export default function Navbar() {
           <Link to="/timetable" className={navLinkClass('/timetable')}>
             Timetable
           </Link>
+          <Link to="/about" className={navLinkClass('/about')}>
+            About
+          </Link>
         </div>
       </div>
     </nav>
