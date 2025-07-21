@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import { saveSubjects } from './storage'
+
 
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
 const times = ['8AM', '9AM', '10AM', '11AM', '12PM', '1PM']

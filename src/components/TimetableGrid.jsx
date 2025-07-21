@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react'
-import SubjectCard from './SubjectCard'
-import EditModal from './EditModal'
-import { saveSubjects, getSubjects } from './storage'
-import { downloadTimetableAsPDF } from '../utils/downloadPDF'
+import { useState, useEffect } from 'react';
+import SubjectCard from './SubjectCard';
+import EditModal from './EditModal';
+import { saveSubjects, getSubjects } from '../utils/storage';
+import { downloadTimetableAsPDF } from '../utils/downloadPDF';
 
-const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
-const periods = ['8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM']
+const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+const periods = ['8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM'];
 
 const dayColors = {
   Monday: 'bg-rose-50',
@@ -13,35 +13,34 @@ const dayColors = {
   Wednesday: 'bg-yellow-50',
   Thursday: 'bg-emerald-50',
   Friday: 'bg-indigo-50',
-}
+};
 
 export default function TimetableGrid({ subjects, setSubjects }) {
-  const [editing, setEditing] = useState(null)
+  const [editing, setEditing] = useState(null);
 
-  // Ensure subjects are loaded on first mount
   useEffect(() => {
     if (!subjects || subjects.length === 0) {
-      const saved = getSubjects()
-      if (saved && saved.length > 0) {
-        setSubjects(saved)
+      const saved = getSubjects();
+      if (saved.length > 0) {
+        setSubjects(saved);
       }
     }
-  }, [subjects, setSubjects])
+  }, [subjects, setSubjects]);
 
   const handleSaveEdit = (updated) => {
     const updatedSubjects = subjects.map((s) =>
       s.id === updated.id ? updated : s
-    )
-    setSubjects(updatedSubjects)
-    saveSubjects(updatedSubjects)
-    setEditing(null)
-  }
+    );
+    setSubjects(updatedSubjects);
+    saveSubjects(updatedSubjects);
+    setEditing(null);
+  };
 
   const handleDelete = (id) => {
-    const updatedSubjects = subjects.filter((s) => s.id !== id)
-    setSubjects(updatedSubjects)
-    saveSubjects(updatedSubjects)
-  }
+    const updatedSubjects = subjects.filter((s) => s.id !== id);
+    setSubjects(updatedSubjects);
+    saveSubjects(updatedSubjects);
+  };
 
   if (!subjects || subjects.length === 0) {
     return (
@@ -49,7 +48,7 @@ export default function TimetableGrid({ subjects, setSubjects }) {
         <p className="text-lg font-semibold">Timetable not found!</p>
         <p className="text-sm">Please add subjects to generate the timetable.</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -77,9 +76,7 @@ export default function TimetableGrid({ subjects, setSubjects }) {
             <tr>
               <th className="p-2 border">Time</th>
               {days.map((day) => (
-                <th key={day} className="p-2 border">
-                  {day}
-                </th>
+                <th key={day} className="p-2 border">{day}</th>
               ))}
             </tr>
           </thead>
@@ -107,5 +104,5 @@ export default function TimetableGrid({ subjects, setSubjects }) {
         </table>
       </div>
     </div>
-  )
+  );
 }

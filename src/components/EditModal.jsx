@@ -1,93 +1,107 @@
-import { useState } from 'react'
+import React, { useState } from 'react';
 
-export default function EditModal({ subject, onSave, onClose }) {
+export default function EditModal({ subject, onClose, onSave }) {
   const [form, setForm] = useState({
-    ...subject,
-  })
+    name: subject.name || '',
+    teacher: subject.teacher || '',
+    periods: subject.periods || 1,
+    startTime: subject.startTime || '08:00',
+    endTime: subject.endTime || '09:00',
+  });
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  }
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    onSave(form)
-  }
+    e.preventDefault();
+    onSave(form);
+  };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center ">
+    <div
+      className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+    >
       <div
-        className="absolute inset-0 "
-        onClick={onClose}
-      ></div>
-
-      <div className="relative z-10 bg-white p-6 rounded-xl shadow-lg w-full max-w-md">
-        <h3 className="text-xl font-semibold mb-4">Edit Subject</h3>
-
+        className="bg-white p-6 rounded-xl shadow-lg w-full max-w-md relative z-10"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2 className="text-lg font-semibold mb-4">Edit Subject</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block font-medium text-sm mb-1">Subject Name</label>
+            <label className="block text-sm font-medium">Name</label>
             <input
               type="text"
               name="name"
               value={form.name}
               onChange={handleChange}
-              className="w-full border px-3 py-2 rounded-md"
+              required
+              className="w-full p-2 border rounded"
             />
           </div>
-
           <div>
-            <label className="block font-medium text-sm mb-1">Teacher</label>
+            <label className="block text-sm font-medium">Teacher</label>
             <input
               type="text"
               name="teacher"
               value={form.teacher}
               onChange={handleChange}
-              className="w-full border px-3 py-2 rounded-md"
+              required
+              className="w-full p-2 border rounded"
             />
           </div>
-
-          <div className="flex gap-4">
-            <div className="flex-1">
-              <label className="block font-medium text-sm mb-1">Day</label>
-              <select
-                name="day"
-                value={form.day}
+          <div>
+            <label className="block text-sm font-medium">Periods</label>
+            <input
+              type="number"
+              name="periods"
+              value={form.periods}
+              onChange={handleChange}
+              min={1}
+              required
+              className="w-full p-2 border rounded"
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium">Start Time</label>
+              <input
+                type="time"
+                name="startTime"
+                value={form.startTime}
                 onChange={handleChange}
-                className="w-full border px-3 py-2 rounded-md"
-              >
-                {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].map((d) => (
-                  <option key={d} value={d}>{d}</option>
-                ))}
-              </select>
+                required
+                className="w-full p-2 border rounded"
+              />
             </div>
-
-            <div className="flex-1">
-              <label className="block font-medium text-sm mb-1">Time</label>
-              <select
-                name="time"
-                value={form.time}
+            <div>
+              <label className="block text-sm font-medium">End Time</label>
+              <input
+                type="time"
+                name="endTime"
+                value={form.endTime}
                 onChange={handleChange}
-                className="w-full border px-3 py-2 rounded-md"
-              >
-                {['8AM','9AM','10AM','11AM','12PM','1PM','2PM','3PM','4PM'].map((t) => (
-                  <option key={t} value={t}>{t}</option>
-                ))}
-              </select>
+                required
+                className="w-full p-2 border rounded"
+              />
             </div>
           </div>
 
-          <div className="flex justify-end gap-2 mt-4">
+          <div className="flex justify-end mt-6 gap-2">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm rounded-md bg-gray-200 hover:bg-gray-300"
+              className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 text-sm rounded-md bg-blue-600 text-white hover:bg-blue-700"
+              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
             >
               Save
             </button>
@@ -95,5 +109,5 @@ export default function EditModal({ subject, onSave, onClose }) {
         </form>
       </div>
     </div>
-  )
+  );
 }
