@@ -1,22 +1,15 @@
-
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
 
 export const downloadTimetableAsPDF = async () => {
-  const timetableElement = document.getElementById('timetable')
+  const timetableElement = document.getElementById('timetable-table')
 
   if (!timetableElement) return alert('Timetable not found!')
 
-  
-  const clone = timetableElement.cloneNode(true)
-  clone.querySelectorAll('*').forEach((el) => {
-    el.style.color = getComputedStyle(el).color
-    el.style.backgroundColor = getComputedStyle(el).backgroundColor
-  })
-
-  const canvas = await html2canvas(clone, {
+  const canvas = await html2canvas(timetableElement, {
     backgroundColor: '#ffffff',
     useCORS: true,
+    scale: 2
   })
 
   const imgData = canvas.toDataURL('image/png')
